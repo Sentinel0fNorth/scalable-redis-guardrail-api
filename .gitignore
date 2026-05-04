@@ -1,0 +1,17 @@
+target/
+.idea/
+*.iml
+*.class
+*.jar
+*.war
+*.ear
+.DS_Store
+.env
+.vscode/
+logs/
+*.log
+node_modules/
+.gradle/
+build/
+IMPLEMENTATION_SUMMARY.md
+API_TESTING_GUIDE.md
