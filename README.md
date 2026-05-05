@@ -4,8 +4,8 @@ A robust, high-performance Spring Boot microservice acting as the central API ga
 
 ## Tech Stack
 
-- Java 17+
-- Spring Boot 3.x
+- Java 25+
+- Spring Boot 4.x
 - PostgreSQL
 - Redis
 - Spring Data JPA
@@ -13,7 +13,7 @@ A robust, high-performance Spring Boot microservice acting as the central API ga
 
 ## Prerequisites
 
-- Java 17 or higher
+- Java 25 or higher
 - Maven 3.6+
 - Docker and Docker Compose (for PostgreSQL and Redis)
 
