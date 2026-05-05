@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   postgres:
@@ -22,6 +21,20 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    networks:
+      - assignment-network
+
+  api:
+    build: .
+    container_name: assignment_api
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/assignment_db
+      SPRING_DATA_REDIS_HOST: redis
+    depends_on:
+      - postgres
+      - redis
     networks:
       - assignment-network
 

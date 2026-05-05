@@ -44,12 +44,24 @@ public class RedisGuardrailsService {
         }
     }
 
+    private static final String BOT_COUNT_SCRIPT = 
+        "local current = tonumber(redis.call('GET', KEYS[1]) or '0')\n" +
+        "local cap = tonumber(ARGV[1])\n" +
+        "if current >= cap then\n" +
+        "    return -1\n" +
+        "else\n" +
+        "    return redis.call('INCR', KEYS[1])\n" +
+        "end";
+
     public boolean checkAndIncrementBotCount(Long postId) {
         String key = "post:" + postId + ":bot_count";
-        Long count = redisTemplate.opsForValue().increment(key);
+        
+        org.springframework.data.redis.core.script.RedisScript<Long> script = 
+            org.springframework.data.redis.core.script.RedisScript.of(BOT_COUNT_SCRIPT, Long.class);
+            
+        Long result = redisTemplate.execute(script, java.util.Collections.singletonList(key), String.valueOf(HORIZONTAL_CAP));
 
-        if (count > HORIZONTAL_CAP) {
-            redisTemplate.opsForValue().decrement(key);
+        if (result != null && result == -1L) {
             logger.warn("Horizontal cap exceeded for post: {}", postId);
             return false;
         }

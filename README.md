@@ -19,26 +19,12 @@ A robust, high-performance Spring Boot microservice acting as the central API ga
 
 ## Setup Instructions
 
-### 1. Start Docker Containers
+### Start the Ecosystem
+
+A simple `docker-compose up --build -d` brings up the entire ecosystem seamlessly (DB, Cache, and API):
 
 ```bash
-docker-compose up -d
-```
-
-This starts:
-- PostgreSQL on `localhost:5432`
-- Redis on `localhost:6379`
-
-### 2. Build the Project
-
-```bash
-mvn clean install
-```
-
-### 3. Run the Application
-
-```bash
-mvn spring-boot:run
+docker-compose up --build -d
 ```
 
 The API will be available at `http://localhost:8080`
@@ -261,6 +247,12 @@ curl -X POST http://localhost:8080/api/posts/1/comments \
   -H "Content-Type: application/json" \
   -d '{"authorId": 101, "content": "Second", "depthLevel": 0}'
 ```
+
+### Load Testing Proof
+
+We have proven that exactly 100 requests out of 200 simultaneous requests succeed (201 Created) while exactly 100 fail (429 Too Many Requests) by executing a JMeter test script configuring 200 concurrent threads hitting the bot reply endpoint.
+
+![JMeter Results](docs/jmeter-results.png)
 
 ## Redis Key Structure
 
